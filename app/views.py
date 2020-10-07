@@ -56,7 +56,7 @@ def user_tweets_list(request):
         return response
 
 def auth(request):
-	# start the OAuth process, set up a handler with our details
+    # start the OAuth process, set up a handler with our details
 	oauth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET, CALLBACK_URL)
 	# direct the user to the authentication url
 	# if user is logged-in and authorized then transparently goto the callback URL
@@ -71,9 +71,9 @@ def callback(request):
     verifier = request.GET.get('oauth_verifier')
     tweets_data = []
     user_id = ''
-
+    response=HttpResponseRedirect('/')
     if verifier:
-        oauth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+        oauth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET,CALLBACK_URL)
         token = request.session.get('request_token')
 
         # remove the request token now we don't need it
@@ -85,13 +85,17 @@ def callback(request):
             oauth.get_access_token(verifier)
             # fetch tweets from user timeline 
             tweets_data, user_id = fetch_tweets(oauth)
-    
-            for tweet, domain in tweets_data:
-                Tweet.objects.get_or_create(**tweet)
-                Domain.objects.get_or_create(**domain)
-            
             request.session['user_id'] = user_id
-            x=True
+            if not tweets_data:
+                 response=HttpResponseRedirect('/base1')
+            else:
+                
+                for tweet, domain in tweets_data:
+                    Tweet.objects.get_or_create(**tweet)
+                    Domain.objects.get_or_create(**domain)
+                response=HttpResponseRedirect('/base1')
+            
+            
         
         except tweepy.TweepError:
             print('Error, failed to get access token')
@@ -101,11 +105,34 @@ def callback(request):
 
         
     
-    response = HttpResponseRedirect('/')
+    #response = HttpResponseRedirect('/')
     return response
 
+def login(request):
+    return render(request, "app/base.html")
+
+
+def base1(request):
+    print("request", request.session.get("user_id"))
+    tweets_top_urls = Tweet.objects.all().\
+                            values('user_id', 'user_screen_name', 'user_name').\
+                            annotate(total=Count('url')).\
+                            order_by('-total')[:TOP_COUNT]
+
+    domains_top_names = Domain.objects.all().\
+                            values('domain_name').\
+                            annotate(total=Count('domain_name')).\
+                            order_by('-total')[:TOP_COUNT]
+    print("got in base 1")
+    return render(request,
+                'app/base1.html',
+                    {
+                    'tweets':tweets_top_urls,
+                    'domains':domains_top_names
+                    }
+                )
 def sign_out(request):
-    #request.session.clear()
+    request.session.clear()
     response = HttpResponseRedirect('/')
     return response
 

@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
+  <link rel="stylesheet" href="{% static 'app/base.css' %}">
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -24,52 +24,42 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </head>
-    <body class="ui container">
-        <h2 class="ui center aligned icon header">
-            <i class="circular users icon"></i>
+    <body class="ui container body">
+        
+        <h1 id="h1" class="ui center aligned icon header" >
             Twitter Top Links 
-        </h2>
+        </h1>
         <div class="ui secondary pointing menu">
           
         <a href={% url 'top_tweets_list' %} class="item">
           Home
         </a>
     
-        {% if  user.is_authenticated %}
+        
             <a href={% url 'user_tweets_list' %} class="item">
                 Tweets
             </a>
-        {% else %}
-        <div data-tooltip= "Please Sign In !!">
-            <a  class="item">
-              Tweets
-            </a>
-        </div>
-        {% endif %}
-
+      
+   
         <div class="right menu">
-            {% if request.session.user_id %}
-                <a href = {% url 'sign_out' %} class="ui item">
+            {% if  user.is_authenticated %}
+                <a href = {% url 'sign_out' %} id="a1" class="ui item" >
                     <i class="trash icon"></i>
                     Sign Out
                 </a>
 
             {% else %}
-                <a href = {% url 'auth' %} class="ui item">  
+                <a href = {% url 'auth' %} id="a2" class="ui item">  
                 <i class="twitter icon"></i>
                     Login with Twitter
                 </a>
           {% endif %}
         </div>
       </div>
-    <div class="content container">
-        <div class="row">
-            <div class="col-md-8">
+    
                 {% block content %}
                 {% endblock %}
-            </div>
-        </div>
-    </div>
+          
         <script
             src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="

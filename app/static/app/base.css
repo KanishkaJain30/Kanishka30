@@ -1,0 +1,23 @@
+.body{
+
+background-color:#ECFAFF;
+opacity: 1;
+}
+
+#a1{
+    color:#00ACEE;
+
+}
+#a2{
+    background-color:#00ACEE;
+    color:white;
+    border-radius: 12px;
+    
+    
+
+}
+#h1{
+    margin-bottom:50px;
+    top:-10px;
+
+}

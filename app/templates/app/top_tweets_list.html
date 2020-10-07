@@ -1,8 +1,13 @@
 {% extends 'app/base.html' %}
 
 {% block content %}
-    <table class="ui celled table">
+<div class="row">
+    <div class="col md-sm-10"  style="top:20px" >
+        <h5>Users shared the most tweets</h5>
+    <table class="ui celled table" style="width:100%">
+        
         <thead>
+            
             <tr><th> User ID </th>
                 <th> User Handle Name</th>
                 <th> User Name</th>
@@ -22,7 +27,9 @@
                 {%endfor %}
             </tbody>
     </table>
-
+</div>
+<div class="col md-sm-2" style="top:20px">
+    <h5>Top Domains that have been shared </h5>
     <table class="ui celled table">
         <thead>
             <tr>
@@ -39,5 +46,6 @@
                 {%endfor %}
             </tbody>
     </table>
-
+    </div>
+</div>
 {% endblock %}
