@@ -1,6 +1,6 @@
-CONSUMER_KEY='WVWXxcErOxOk1du3TkuixfJa9'  # Twitter Application consumer key
+CONSUMER_KEY=''  # Twitter Application consumer key
 
-CONSUMER_SECRET='GttV0HwHva0nGZo3Kl9MoiuruaNvJpDDZYDgzmVEcTzkFlloBN'  # Twitter Application consumer secret
+CONSUMER_SECRET=''  # Twitter Application consumer secret
 
 TWEETS_SINCE_DAYS=100  # Retrieve tweets from last X days
 
